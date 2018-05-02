@@ -41,7 +41,7 @@ class UDPJSONPlugin
         maxValue: 100
       });
 
-    	this.humidityService = if (this.humidityOff != "") { new Service.HumiditySensor(this.name_humidity)};	    
+    	this.humidityService = if (this.humidityOff = true) { new Service.HumiditySensor(this.name_humidity)};	    
 	  
 	 this.carbondioxideService = new Service.CarbonDioxideSensor(this.name_carbonDioxide);
 	  
