@@ -29,7 +29,6 @@ class UDPJSONPlugin
       .setCharacteristic(Characteristic.Model, "RPI-UDPJSON")
       .setCharacteristic(Characteristic.SerialNumber, this.device);
 
-    this.temperatureService = new Service.TemperatureSensor(this.name_temperature);
 
     this.temperatureService
       .getCharacteristic(Characteristic.CurrentTemperature)
@@ -38,7 +37,6 @@ class UDPJSONPlugin
         maxValue: 100
       });
 
-    this.humidityService = new Service.HumiditySensor(this.name_humidity);
 
     this.server = dgram.createSocket('udp4');
     
@@ -65,27 +63,29 @@ class UDPJSONPlugin
       const co2_ppm = json.co2_ppm;
       const light_lux = json.light_lux;
  
-      this.temperatureService
+   this.temperatureService = new Service.TemperatureSensor(this.name_temperature);	    
+   this.temperatureService
         .getCharacteristic(Characteristic.CurrentTemperature)
         .setValue(temperature_c);
     if (humidity_percent !== false) {
-      this.humidityService
+    	this.humidityService = new Service.HumiditySensor(this.name_humidity);	    
+      	this.humidityService
         .getCharacteristic(Characteristic.CurrentRelativeHumidity)
         .setValue(humidity_percent);
     }
     if (co2_ppm !== false) {
-		    thisCharacteristic = this.getaddService(Service.CarbonDioxideSensor).getCharacteristic(Characteristic.CarbonDioxideDetected)
+	thisCharacteristic = this.getaddService(Service.CarbonDioxideSensor).getCharacteristic(Characteristic.CarbonDioxideDetected)
         thisCharacteristic.on('get', function(callback) {
                 if (co2_ppm < 1200 )
                     callback(null, Characteristic.CarbonDioxideDetected.CO2_LEVELS_NORMAL);
                 else
                     callback(null, Characteristic.CarbonDioxideDetected.CO2_LEVELS_ABNORMAL);
             });
- 		    that.platform.addAttributeUsage("carbonDioxide", this.deviceid, thisCharacteristic);
+// 		    that.platform.addAttributeUsage("carbonDioxide", this.deviceid, thisCharacteristic);
 
-	      thisCharacteristic = this.getaddService(Service.CarbonDioxideSensor).getCharacteristic(Characteristic.CarbonDioxideLevel)
-    		thisCharacteristic.on('get', function(callback) { callback(null, Math.round(co2_ppm)); })
-                that.platform.addAttributeUsage("carbonDioxide", this.deviceid, thisCharacteristic);
+	thisCharacteristic = this.getaddService(Service.CarbonDioxideSensor).getCharacteristic(Characteristic.CarbonDioxideLevel)
+    	thisCharacteristic.on('get', function(callback) { callback(null, Math.round(co2_ppm)); })
+//        that.platform.addAttributeUsage("carbonDioxide", this.deviceid, thisCharacteristic);
     }
     if (light_lux !== false) {      
         thisCharacteristic = this.getaddService(Service.LightSensor).getCharacteristic(Characteristic.CurrentAmbientLightLevel)
