@@ -82,13 +82,10 @@ class UDPJSONPlugin
 	.setValue(Math.round(co2_ppm))	  
     //}
    // if (light_lux !== false) {
-	this.lightService = new Service.LightSensor(this.name_light)
+	this.lightService = new Service.LightSensor(this.name_light);
         this.lightService
 	.getCharacteristic(Characteristic.CurrentAmbientLightLevel)
 	.setValue(Math.round(light_lux))
-		thisCharacteristic = this.getaddService(Service.LightSensor).getCharacteristic(Characteristic.CurrentAmbientLightLevel)
-        thisCharacteristic.on('get', function(callback) { callback(null, Math.round(light_lux)); });
-    		that.platform.addAttributeUsage("Light", this.deviceid, thisCharacteristic);      
     //}
     });
 
@@ -98,6 +95,6 @@ class UDPJSONPlugin
   }
 
   getServices() {
-    return [this.informationService, this.temperatureService, this.humidityService]
+    return [this.informationService, this.temperatureService, this.humidityService, this.carbondioxideService, this.lightService]
   }
 }
