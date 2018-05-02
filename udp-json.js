@@ -67,21 +67,21 @@ class UDPJSONPlugin
    this.temperatureService
         .getCharacteristic(Characteristic.CurrentTemperature)
         .setValue(Math.round(temperature_c));
-    if (humidity_percent !== false) {
+ //   if (humidity_percent !== false) {
     	this.humidityService = new Service.HumiditySensor(this.name_humidity);	    
       	this.humidityService
         .getCharacteristic(Characteristic.CurrentRelativeHumidity)
         .setValue(Math.round(humidity_percent));
-    }
-    if (co2_ppm !== false) {
+   // }
+   // if (co2_ppm !== false) {
 	this.carbondioxideService = new Service.CarbonDioxideSensor(this.name_carbonDioxide);
 	this.carbondioxideService
 	.getCharacteristic(Characteristic.CarbonDioxideDetected)
 	.setValue(co2_ppm > 1200 ? Characteristic.CarbonDioxideDetected.CO2_LEVELS_ABNORMAL : Characteristic.CarbonDioxideDetected.CO2_LEVELS_NORMAL
 	.getCharacteristic(Characteristic.CarbonDioxideLevel)
 	.setValue(Math.round(co2_ppm))	  
-    }
-    if (light_lux !== false) {
+    //}
+   // if (light_lux !== false) {
 	this.lightService = new Service.LightSensor(this.name_light)
         this.lightService
 	.getCharacteristic(Characteristic.CurrentAmbientLightLevel)
@@ -89,7 +89,7 @@ class UDPJSONPlugin
 		thisCharacteristic = this.getaddService(Service.LightSensor).getCharacteristic(Characteristic.CurrentAmbientLightLevel)
         thisCharacteristic.on('get', function(callback) { callback(null, Math.round(light_lux)); });
     		that.platform.addAttributeUsage("Light", this.deviceid, thisCharacteristic);      
-    }
+    //}
     });
 
     
