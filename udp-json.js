@@ -26,7 +26,9 @@ class UDPJSONPlugin
     this.name_light = config.name_light || this.name;
     this.listen_port = config.listen_port || 8268;
 	  
-
+ getServices() {
+	 var services = [],
+	     
     this.informationService = new Service.AccessoryInformation();
 
     this.informationService
@@ -107,9 +109,10 @@ if (this.lightOff != "") {
     
     this.server.bind(this.listen_port);
 
+	 return services;
   }
 
-  getServices() {
-    return [this.informationService, this.temperatureService, this.humidityService, this.carbondioxideService, this.lightService]
+//  getServices() {
+//    return [this.informationService, this.temperatureService, this.humidityService, this.carbondioxideService, this.lightService]
   }
 }
