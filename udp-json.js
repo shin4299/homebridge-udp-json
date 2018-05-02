@@ -35,7 +35,7 @@ class UDPJSONPlugin
       .setCharacteristic(Characteristic.Model, "RPI-UDPJSON")
       .setCharacteristic(Characteristic.SerialNumber, this.device);
 
-if (this.temperatureON == true) { 
+if (this.temperatureON = true) { 
    this.temperatureService = new Service.TemperatureSensor(this.name_temperature);	    
     this.temperatureService
       .getCharacteristic(Characteristic.CurrentTemperature)
@@ -45,13 +45,13 @@ if (this.temperatureON == true) {
       });
  }
 	  
-if (this.humidityON == true) { 
+if (this.humidityON = true) { 
     	this.humidityService = new Service.HumiditySensor(this.name_humidity);	    
 }
-if (this.carbonDioxideON == true) { 
+if (this.carbonDioxideON = true) { 
 	 this.carbondioxideService = new Service.CarbonDioxideSensor(this.name_carbonDioxide);
 }
-if (this.lightON == true) { 
+if (this.lightON = true) { 
 	this.lightService = new Service.LightSensor(this.name_light);
 }
 
