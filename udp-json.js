@@ -53,11 +53,6 @@ class UDPJSONPlugin
 
     });
 
-    
-    this.server.bind(this.listen_port);
-
-  }
-
   getServices() {
 	          var services = [],
 
@@ -108,4 +103,9 @@ if (this.lightOff != "" && light_lux >= 0) {
 
         return services;
   }
+    
+    this.server.bind(this.listen_port);
+
+  }
+
 }
