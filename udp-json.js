@@ -15,11 +15,10 @@ class UDPJSONPlugin
 {
   constructor(log, config) {
     this.log = log;
-    this.temperatureON = config.temperatureON || true
-    this.humidityON = config.humidityON || true
-    this.carbonDioxideON = config.carbonDioxideON || true
-    this.lightON = config.lightON || true
-	  
+    this.temperatureON = config.temperatureON;
+    this.humidityON = config.humidityON;
+    this.carbonDioxideON = config.carbonDioxideON;
+    this.lightON = config.lightON;
     this.name = config.name;
     this.name_temperature = config.name_temperature || this.name;
     this.name_humidity = config.name_humidity || this.name;
