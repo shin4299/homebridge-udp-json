@@ -15,12 +15,18 @@ class UDPJSONPlugin
 {
   constructor(log, config) {
     this.log = log;
+    this.temperatureON = config.temperatureON || true
+    this.humidityON = config.humidityON || true
+    this.carbonDioxideON = config.carbonDioxideON || true
+    this.lightON = config.lightON || true
+	  
     this.name = config.name;
     this.name_temperature = config.name_temperature || this.name;
     this.name_humidity = config.name_humidity || this.name;
     this.name_carbonDioxide = config.name_carbonDioxide || this.name;
     this.name_light = config.name_light || this.name;
     this.listen_port = config.listen_port || 8268;
+	  
 
     this.informationService = new Service.AccessoryInformation();
 
@@ -29,18 +35,25 @@ class UDPJSONPlugin
       .setCharacteristic(Characteristic.Model, "RPI-UDPJSON")
       .setCharacteristic(Characteristic.SerialNumber, this.device);
 
+if (this.temperatureON == true) { 
    this.temperatureService = new Service.TemperatureSensor(this.name_temperature);	    
-
     this.temperatureService
       .getCharacteristic(Characteristic.CurrentTemperature)
       .setProps({
         minValue: -100,
         maxValue: 100
       });
+ }
+	  
+if (this.humidityON == true) { 
     	this.humidityService = new Service.HumiditySensor(this.name_humidity);	    
-	this.carbondioxideService = new Service.CarbonDioxideSensor(this.name_carbonDioxide);
+}
+if (this.carbonDioxideON == true) { 
+	 this.carbondioxideService = new Service.CarbonDioxideSensor(this.name_carbonDioxide);
+}
+if (this.lightON == true) { 
 	this.lightService = new Service.LightSensor(this.name_light);
-
+}
 
     this.server = dgram.createSocket('udp4');
     
