@@ -83,7 +83,7 @@ class UDPJSONPlugin
   }
 
 	
- getServices: function () {
+ getServices () {
         var services = [],	
 	  
     this.informationService = new Service.AccessoryInformation();
