@@ -66,29 +66,27 @@ class UDPJSONPlugin
    this.temperatureService = new Service.TemperatureSensor(this.name_temperature);	    
    this.temperatureService
         .getCharacteristic(Characteristic.CurrentTemperature)
-        .setValue(temperature_c);
+        .setValue(Math.round(temperature_c));
     if (humidity_percent !== false) {
     	this.humidityService = new Service.HumiditySensor(this.name_humidity);	    
       	this.humidityService
         .getCharacteristic(Characteristic.CurrentRelativeHumidity)
-        .setValue(humidity_percent);
+        .setValue(Math.round(humidity_percent));
     }
     if (co2_ppm !== false) {
-	thisCharacteristic = this.getaddService(Service.CarbonDioxideSensor).getCharacteristic(Characteristic.CarbonDioxideDetected)
-        thisCharacteristic.on('get', function(callback) {
-                if (co2_ppm < 1200 )
-                    callback(null, Characteristic.CarbonDioxideDetected.CO2_LEVELS_NORMAL);
-                else
-                    callback(null, Characteristic.CarbonDioxideDetected.CO2_LEVELS_ABNORMAL);
-            });
-// 		    that.platform.addAttributeUsage("carbonDioxide", this.deviceid, thisCharacteristic);
-
-	thisCharacteristic = this.getaddService(Service.CarbonDioxideSensor).getCharacteristic(Characteristic.CarbonDioxideLevel)
-    	thisCharacteristic.on('get', function(callback) { callback(null, Math.round(co2_ppm)); })
-//        that.platform.addAttributeUsage("carbonDioxide", this.deviceid, thisCharacteristic);
+	this.carbondioxideService = new Service.CarbonDioxideSensor(this.name_carbonDioxide);
+	this.carbondioxideService
+	.getCharacteristic(Characteristic.CarbonDioxideDetected)
+	.setValue(co2_ppm > 1200 ? Characteristic.CarbonDioxideDetected.CO2_LEVELS_ABNORMAL : Characteristic.CarbonDioxideDetected.CO2_LEVELS_NORMAL
+	.getCharacteristic(Characteristic.CarbonDioxideLevel)
+	.setValue(Math.round(co2_ppm))	  
     }
-    if (light_lux !== false) {      
-        thisCharacteristic = this.getaddService(Service.LightSensor).getCharacteristic(Characteristic.CurrentAmbientLightLevel)
+    if (light_lux !== false) {
+	this.lightService = new Service.LightSensor(this.name_light)
+        this.lightService
+	.getCharacteristic(Characteristic.CurrentAmbientLightLevel)
+	.setValue(Math.round(light_lux))
+		thisCharacteristic = this.getaddService(Service.LightSensor).getCharacteristic(Characteristic.CurrentAmbientLightLevel)
         thisCharacteristic.on('get', function(callback) { callback(null, Math.round(light_lux)); });
     		that.platform.addAttributeUsage("Light", this.deviceid, thisCharacteristic);      
     }
