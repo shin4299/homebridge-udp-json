@@ -15,10 +15,10 @@ class UDPJSONPlugin
 {
   constructor(log, config) {
     this.log = log;
-    this.temperatureON = config.temperatureON;
-    this.humidityON = config.humidityON;
-    this.carbonDioxideON = config.carbonDioxideON;
-    this.lightON = config.lightON;
+    this.temperatureOff = config.temperatureOff;
+    this.humidityOff = config.humidityOff;
+    this.carbonDioxideOff = config.carbonDioxideOff;
+    this.lightOff = config.lightOff;
     this.name = config.name;
     this.name_temperature = config.name_temperature || this.name;
     this.name_humidity = config.name_humidity || this.name;
@@ -34,7 +34,7 @@ class UDPJSONPlugin
       .setCharacteristic(Characteristic.Model, "RPI-UDPJSON")
       .setCharacteristic(Characteristic.SerialNumber, this.device);
 
-if (this.temperatureON = true) { 
+if (this.temperatureOff != "") { 
    this.temperatureService = new Service.TemperatureSensor(this.name_temperature);	    
     this.temperatureService
       .getCharacteristic(Characteristic.CurrentTemperature)
@@ -44,13 +44,13 @@ if (this.temperatureON = true) {
       });
  }
 	  
-if (this.humidityON = true) { 
+if (this.humidityOff != "") { 
     	this.humidityService = new Service.HumiditySensor(this.name_humidity);	    
 }
-if (this.carbonDioxideON = true) { 
+if (this.carbonDioxideOff != "") { 
 	 this.carbondioxideService = new Service.CarbonDioxideSensor(this.name_carbonDioxide);
 }
-if (this.lightON = true) { 
+if (this.lightOff != "") { 
 	this.lightService = new Service.LightSensor(this.name_light);
 }
 
