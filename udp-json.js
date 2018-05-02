@@ -18,6 +18,8 @@ class UDPJSONPlugin
     this.name = config.name;
     this.name_temperature = config.name_temperature || this.name;
     this.name_humidity = config.name_humidity || this.name;
+    this.name_carbonDioxide = config.name_carbonDioxide || this.name;
+    this.name_light = config.name_light || this.name;
     this.listen_port = config.listen_port || 8268;
 
     this.informationService = new Service.AccessoryInformation();
@@ -60,16 +62,39 @@ class UDPJSONPlugin
       //const pressure_hPa = json.pressure_hPa; // TODO
       //const altitude_m = json.altitude_m;
       const humidity_percent = json.humidity_percent;
+      const co2_ppm = json.co2_ppm;
+      const light_lux = json.light_lux;
  
       this.temperatureService
         .getCharacteristic(Characteristic.CurrentTemperature)
         .setValue(temperature_c);
-
+    if (humidity_percent !== false) {
       this.humidityService
         .getCharacteristic(Characteristic.CurrentRelativeHumidity)
         .setValue(humidity_percent);
+    }
+    if (co2_ppm !== false) {
+		    thisCharacteristic = this.getaddService(Service.CarbonDioxideSensor).getCharacteristic(Characteristic.CarbonDioxideDetected)
+        thisCharacteristic.on('get', function(callback) {
+                if (co2_ppm < 1200 )
+                    callback(null, Characteristic.CarbonDioxideDetected.CO2_LEVELS_NORMAL);
+                else
+                    callback(null, Characteristic.CarbonDioxideDetected.CO2_LEVELS_ABNORMAL);
+            });
+ 		    that.platform.addAttributeUsage("carbonDioxide", this.deviceid, thisCharacteristic);
+
+	      thisCharacteristic = this.getaddService(Service.CarbonDioxideSensor).getCharacteristic(Characteristic.CarbonDioxideLevel)
+    		thisCharacteristic.on('get', function(callback) { callback(null, Math.round(co2_ppm)); })
+                that.platform.addAttributeUsage("carbonDioxide", this.deviceid, thisCharacteristic);
+    }
+    if (light_lux !== false) {      
+        thisCharacteristic = this.getaddService(Service.LightSensor).getCharacteristic(Characteristic.CurrentAmbientLightLevel)
+        thisCharacteristic.on('get', function(callback) { callback(null, Math.round(light_lux)); });
+    		that.platform.addAttributeUsage("Light", this.deviceid, thisCharacteristic);      
+    }
     });
 
+    
     this.server.bind(this.listen_port);
 
   }
