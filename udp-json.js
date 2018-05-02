@@ -29,6 +29,7 @@ class UDPJSONPlugin
       .setCharacteristic(Characteristic.Model, "RPI-UDPJSON")
       .setCharacteristic(Characteristic.SerialNumber, this.device);
 
+   this.temperatureService = new Service.TemperatureSensor(this.name_temperature);	    
 
     this.temperatureService
       .getCharacteristic(Characteristic.CurrentTemperature)
@@ -36,6 +37,9 @@ class UDPJSONPlugin
         minValue: -100,
         maxValue: 100
       });
+    	this.humidityService = new Service.HumiditySensor(this.name_humidity);	    
+	this.carbondioxideService = new Service.CarbonDioxideSensor(this.name_carbonDioxide);
+	this.lightService = new Service.LightSensor(this.name_light);
 
 
     this.server = dgram.createSocket('udp4');
@@ -63,18 +67,15 @@ class UDPJSONPlugin
       const co2_ppm = json.co2_ppm;
       const light_lux = json.light_lux;
  
-   this.temperatureService = new Service.TemperatureSensor(this.name_temperature);	    
    this.temperatureService
         .getCharacteristic(Characteristic.CurrentTemperature)
         .setValue(Math.round(temperature_c));
  //   if (humidity_percent !== false) {
-    	this.humidityService = new Service.HumiditySensor(this.name_humidity);	    
       	this.humidityService
         .getCharacteristic(Characteristic.CurrentRelativeHumidity)
         .setValue(Math.round(humidity_percent));
    // }
    // if (co2_ppm !== false) {
-	this.carbondioxideService = new Service.CarbonDioxideSensor(this.name_carbonDioxide);
 	this.carbondioxideService
 //	.getCharacteristic(Characteristic.CarbonDioxideDetected)
 //	.setValue(co2_ppm > 1200 ? Characteristic.CarbonDioxideDetected.CO2_LEVELS_ABNORMAL : Characteristic.CarbonDioxideDetected.CO2_LEVELS_NORMAL
@@ -82,7 +83,6 @@ class UDPJSONPlugin
 	.setValue(Math.round(co2_ppm))	  
     //}
    // if (light_lux !== false) {
-	this.lightService = new Service.LightSensor(this.name_light);
         this.lightService
 	.getCharacteristic(Characteristic.CurrentAmbientLightLevel)
 	.setValue(Math.round(light_lux))
