@@ -77,8 +77,8 @@ class UDPJSONPlugin
    // }
    // if (co2_ppm !== false) {
 	this.carbondioxideService
-//	.getCharacteristic(Characteristic.CarbonDioxideDetected)
-//	.setValue(co2_ppm > 1200 ? Characteristic.CarbonDioxideDetected.CO2_LEVELS_ABNORMAL : Characteristic.CarbonDioxideDetected.CO2_LEVELS_NORMAL
+	.getCharacteristic(Characteristic.CarbonDioxideDetected)
+	.setValue(co2_ppm > 1200 ? Characteristic.CarbonDioxideDetected.CO2_LEVELS_ABNORMAL : Characteristic.CarbonDioxideDetected.CO2_LEVELS_NORMAL)
 	.getCharacteristic(Characteristic.CarbonDioxideLevel)
 	.setValue(Math.round(co2_ppm))	  
     //}
