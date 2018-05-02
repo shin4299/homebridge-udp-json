@@ -104,17 +104,20 @@ class UDPJSONPlugin
   }
 
   getServices() {
-        var services = [],
 
-this.informationService	  
+this.informationService;	  
 	  
-if (this.temperatureOff != "") { this.temperatureService
+if (this.temperatureOff != "") { 
+	this.temperatureService;
  }
-if (this.humidityOff != "") { this.humidityService
+if (this.humidityOff != "") { 
+	this.humidityService;
 }
-if (this.carbonDioxideOff != "") { this.carbondioxideService
+if (this.carbonDioxideOff != "") { 
+	this.carbondioxideService;
 }
-if (this.lightOff != "") { this.lightService
+if (this.lightOff != "") { 
+	this.lightService;
 }
 	  return services;
 //    return [this.informationService, this.temperatureService, this.carbondioxideService, this.lightService]
