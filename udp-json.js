@@ -66,28 +66,30 @@ class UDPJSONPlugin
       const humidity_percent = json.humidity_percent;
       const co2_ppm = json.co2_ppm;
       const light_lux = json.light_lux;
- 
-   this.temperatureService
+
+    if (temperature_c !== false) { 
+   	this.temperatureService
         .getCharacteristic(Characteristic.CurrentTemperature)
         .setValue(Math.round(temperature_c));
- //   if (humidity_percent !== false) {
+    }	    
+    if (humidity_percent !== false) {
       	this.humidityService
         .getCharacteristic(Characteristic.CurrentRelativeHumidity)
         .setValue(Math.round(humidity_percent));
-   // }
-   // if (co2_ppm !== false) {
+    }
+    if (co2_ppm !== false) {
 	this.carbondioxideService
 	.getCharacteristic(Characteristic.CarbonDioxideDetected)
 	.setValue(co2_ppm > 800 ? Characteristic.CarbonDioxideDetected.CO2_LEVELS_ABNORMAL : Characteristic.CarbonDioxideDetected.CO2_LEVELS_NORMAL)
 	this.carbondioxideService
 	.getCharacteristic(Characteristic.CarbonDioxideLevel)
 	.setValue(Math.round(co2_ppm))	  
-    //}
-   // if (light_lux !== false) {
+    }
+    if (light_lux !== false) {
         this.lightService
 	.getCharacteristic(Characteristic.CurrentAmbientLightLevel)
 	.setValue(Math.round(light_lux))
-    //}
+    }
     });
 
     
