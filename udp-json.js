@@ -28,6 +28,32 @@ class UDPJSONPlugin
     this.listen_port = config.listen_port || 8268;
 
 	  
+	  
+    this.server = dgram.createSocket('udp4');
+    
+    this.server.on('error', (err) => {
+      console.log(`udp server error:\n${err.stack}`);
+      this.server.close();
+    });
+
+    this.server.on('message', (msg, rinfo) => {
+      console.log(`server received udp: ${msg} from ${rinfo.address}`);
+
+      let json;
+      try {
+          json = JSON.parse(msg);
+      } catch (e) {
+          console.log(`failed to decode JSON: ${e}`);
+          return;
+      }
+
+      const temperature_c = json.temperature_c;
+      //const pressure_hPa = json.pressure_hPa; // TODO
+      //const altitude_m = json.altitude_m;
+      const humidity_percent = json.humidity_percent;
+      const co2_ppm = json.co2_ppm;
+      const light_lux = json.light_lux;
+	    
         this.services = [],	
 	  
     this.informationService = new Service.AccessoryInformation();
@@ -67,35 +93,10 @@ if (this.lightOff !== false) {
 	.getCharacteristic(Characteristic.CurrentAmbientLightLevel)
 	.setValue(Math.round(light_lux));
 }
-	  
-	  
-	  
-	  
-    this.server = dgram.createSocket('udp4');
-    
-    this.server.on('error', (err) => {
-      console.log(`udp server error:\n${err.stack}`);
-      this.server.close();
-    });
-
-    this.server.on('message', (msg, rinfo) => {
-      console.log(`server received udp: ${msg} from ${rinfo.address}`);
-
-      let json;
-      try {
-          json = JSON.parse(msg);
-      } catch (e) {
-          console.log(`failed to decode JSON: ${e}`);
-          return;
-      }
-
-      const temperature_c = json.temperature_c;
-      //const pressure_hPa = json.pressure_hPa; // TODO
-      //const altitude_m = json.altitude_m;
-      const humidity_percent = json.humidity_percent;
-      const co2_ppm = json.co2_ppm;
-      const light_lux = json.light_lux;
-
+	    
+	    
+	    
+	    
     });
 
     
