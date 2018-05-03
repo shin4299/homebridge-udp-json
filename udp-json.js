@@ -76,12 +76,12 @@ class UDPJSONPlugin
         .setValue(Math.round(temperature_c));
 // }
 
-if (this.humidityOff) { 
+//if (this.humidityOff) { 
     	this.humidityService = new Service.HumiditySensor(this.name_humidity);
 	this.heumidityService
         .getCharacteristic(Characteristic.CurrentRelativeHumidity)
         .setValue(Math.round(humidity_percent));
-}
+//}
 //if (this.carbonDioxideOff != "") { 
 	 this.carbondioxideService = new Service.CarbonDioxideSensor(this.name_carbonDioxide);
 	    this.carbondioxideService
@@ -89,14 +89,14 @@ if (this.humidityOff) {
 	.setValue(co2_ppm > this.carbonDioxideSet ? Characteristic.CarbonDioxideDetected.CO2_LEVELS_ABNORMAL : Characteristic.CarbonDioxideDetected.CO2_LEVELS_NORMAL)
 	this.carbondioxideService
 	.getCharacteristic(Characteristic.CarbonDioxideLevel)
-	.setValue(Math.round(co2_ppm))	  
+	.setValue(Math.round(co2_ppm));
 //}
-if (this.lightOff) { 
+//if (this.lightOff) { 
 	this.lightService = new Service.LightSensor(this.name_light);
 	this.lightService
 	.getCharacteristic(Characteristic.CurrentAmbientLightLevel)
-	.setValue(Math.round(light_lux))
-} 
+	.setValue(Math.round(light_lux));
+//} 
 	    
   /*  if (temperature_c > -100) { 
    	this.temperatureService
