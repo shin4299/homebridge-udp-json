@@ -26,65 +26,9 @@ class UDPJSONPlugin
     this.name_carbonDioxide = config.name_carbonDioxide || this.name;
     this.name_light = config.name_light || this.name;
     this.listen_port = config.listen_port || 8268;
+
 	  
-    this.server = dgram.createSocket('udp4');
-    
-    this.server.on('error', (err) => {
-      console.log(`udp server error:\n${err.stack}`);
-      this.server.close();
-    });
-
-    this.server.on('message', (msg, rinfo) => {
-      console.log(`server received udp: ${msg} from ${rinfo.address}`);
-
-      let json;
-      try {
-          json = JSON.parse(msg);
-      } catch (e) {
-          console.log(`failed to decode JSON: ${e}`);
-          return;
-      }
-
-      const temperature_c = json.temperature_c;
-      //const pressure_hPa = json.pressure_hPa; // TODO
-      //const altitude_m = json.altitude_m;
-      const humidity_percent = json.humidity_percent;
-      const co2_ppm = json.co2_ppm;
-      const light_lux = json.light_lux;
-
-    if (temperature_c > -100) { 
-   	this.temperatureService
-        .getCharacteristic(Characteristic.CurrentTemperature)
-        .setValue(Math.round(temperature_c));
-    }	    
-    if (humidity_percent > 0) {
-      	this.humidityService
-        .getCharacteristic(Characteristic.CurrentRelativeHumidity)
-        .setValue(Math.round(humidity_percent));
-    }
-    if (co2_ppm > 100) {
-	this.carbondioxideService
-	.getCharacteristic(Characteristic.CarbonDioxideDetected)
-	.setValue(co2_ppm > 1200 ? Characteristic.CarbonDioxideDetected.CO2_LEVELS_ABNORMAL : Characteristic.CarbonDioxideDetected.CO2_LEVELS_NORMAL)
-	this.carbondioxideService
-	.getCharacteristic(Characteristic.CarbonDioxideLevel)
-	.setValue(Math.round(co2_ppm))	  
-    }
-    if (light_lux >= 0) {
-        this.lightService
-	.getCharacteristic(Characteristic.CurrentAmbientLightLevel)
-	.setValue(Math.round(light_lux))
-    }
-    });
-
-    
-    this.server.bind(this.listen_port);
-
-  }
-
-	
- getServices () {
-        var services = [],	
+        this.services = [],	
 	  
     this.informationService = new Service.AccessoryInformation();
     this.informationService
@@ -123,7 +67,44 @@ if (this.lightOff !== false) {
 	.getCharacteristic(Characteristic.CurrentAmbientLightLevel)
 	.setValue(Math.round(light_lux));
 }
-    return services;
+	  
+	  
+	  
+	  
+    this.server = dgram.createSocket('udp4');
+    
+    this.server.on('error', (err) => {
+      console.log(`udp server error:\n${err.stack}`);
+      this.server.close();
+    });
+
+    this.server.on('message', (msg, rinfo) => {
+      console.log(`server received udp: ${msg} from ${rinfo.address}`);
+
+      let json;
+      try {
+          json = JSON.parse(msg);
+      } catch (e) {
+          console.log(`failed to decode JSON: ${e}`);
+          return;
+      }
+
+      const temperature_c = json.temperature_c;
+      //const pressure_hPa = json.pressure_hPa; // TODO
+      //const altitude_m = json.altitude_m;
+      const humidity_percent = json.humidity_percent;
+      const co2_ppm = json.co2_ppm;
+      const light_lux = json.light_lux;
+
+    });
+
+    
+    this.server.bind(this.listen_port);
+
+  }
+
+	getServices: function() {
+		return this.services;
   }
 };
 //
