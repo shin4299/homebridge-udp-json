@@ -27,6 +27,8 @@ class UDPJSONPlugin
     this.name_light = config.name_light || this.name;
     this.listen_port = config.listen_port || 8268;
 	  
+	  this.services = []
+
     this.informationService = new Service.AccessoryInformation();
 
     this.informationService
@@ -44,15 +46,15 @@ class UDPJSONPlugin
       });
 // }
 
-//if (this.humidityOff !== false) { 
+if (this.humidityOff) { 
     	this.humidityService = new Service.HumiditySensor(this.name_humidity);	    
-//}
+}
 //if (this.carbonDioxideOff != "") { 
 	 this.carbondioxideService = new Service.CarbonDioxideSensor(this.name_carbonDioxide);
 //}
-//if (this.lightOff != "") { 
+if (this.lightOff) { 
 	this.lightService = new Service.LightSensor(this.name_light);
-//}
+}
 
     this.server = dgram.createSocket('udp4');
     
@@ -111,7 +113,7 @@ class UDPJSONPlugin
 
   getServices() {
 	  
-
+/*
 if (this.humidityOff && this.temperatureOff !== true && this.carbondioxideOff !== true && this.lightOff !== true) { 
 	return [this.informationService, this.temperatureService, this.carbondioxideService, this.lightService];
 }
@@ -125,6 +127,7 @@ else if (this.humidityOff !== true && this.temperatureOff !== true && this.carbo
 	return [this.informationService, this.temperatureService, this.humidityService, this.carbondioxideService, this.lightService];
 } else { 
 	return [this.informationService, this.temperatureService];
-}
+}*/
+	return this.Service  
   }
 }
