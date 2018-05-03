@@ -112,13 +112,13 @@ class UDPJSONPlugin
   getServices() {
 	  
 
-if (this.humidityOff !== false && this.temperatureOff == false && this.carbondioxideOff == false && this.lightOff == false) { 
+if (this.humidityOff && this.temperatureOff == false && this.carbondioxideOff == false && this.lightOff == false) { 
 	return [this.informationService, this.temperatureService, this.carbondioxideService, this.lightService];
 }
-else if (this.humidityOff == false && this.temperatureOff == false && this.carbondioxideOff == false && this.lightOff !== false) { 
+else if (this.humidityOff == false && this.temperatureOff == false && this.carbondioxideOff == false && this.lightOff) { 
 	return [this.informationService, this.temperatureService, this.humidityService, this.carbondioxideService];
 }
-else if (this.humidityOff && this.lightOff) { 
+else if (this.humidityOff && this.temperatureOff == false && this.carbondioxideOff == false && this.lightOff) { 
 	return [this.informationService, this.temperatureService, this.carbondioxideService];
 }
 else if (this.humidityOff == false && this.temperatureOff == false && this.carbondioxideOff == false && this.lightOff == false) { 
