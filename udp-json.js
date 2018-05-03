@@ -19,16 +19,36 @@ class UDPJSONPlugin
     this.humidityOff = config.humidityOff;
     this.carbonDioxideOff = config.carbonDioxideOff;
     this.lightOff = config.lightOff;
-    this.carbonDioxideSet = config.carbonDioxideSet || 1000;
     this.name = config.name;
     this.name_temperature = config.name_temperature || this.name;
     this.name_humidity = config.name_humidity || this.name;
     this.name_carbonDioxide = config.name_carbonDioxide || this.name;
     this.name_light = config.name_light || this.name;
     this.listen_port = config.listen_port || 8268;
+	  
+    this.informationService = new Service.AccessoryInformation();
 
+    this.informationService
+      .setCharacteristic(Characteristic.Manufacturer, "Bosch")
+      .setCharacteristic(Characteristic.Model, "RPI-UDPJSON")
+      .setCharacteristic(Characteristic.SerialNumber, this.device);
+
+   this.temperatureService = new Service.TemperatureSensor(this.name_temperature);	    
+    this.temperatureService
+      .getCharacteristic(Characteristic.CurrentTemperature)
+      .setProps({
+        minValue: -100,
+        maxValue: 100
+      });
+
+    	if(this.humidityOff){this.humidityService = new Service.HumiditySensor(this.name_humidity);	    
+			    }
 	  
+	 this.carbondioxideService = new Service.CarbonDioxideSensor(this.name_carbonDioxide);
 	  
+	this.lightService = new Service.LightSensor(this.name_light);
+
+
     this.server = dgram.createSocket('udp4');
     
     this.server.on('error', (err) => {
@@ -53,50 +73,30 @@ class UDPJSONPlugin
       const humidity_percent = json.humidity_percent;
       const co2_ppm = json.co2_ppm;
       const light_lux = json.light_lux;
-	    
-        this.services = [],	
-	  
-    this.informationService = new Service.AccessoryInformation();
-    this.informationService
-      .setCharacteristic(Characteristic.Manufacturer, "Bosch")
-      .setCharacteristic(Characteristic.Model, "RPI-UDPJSON")
-      .setCharacteristic(Characteristic.SerialNumber, this.device);
 
-if (this.temperatureOff !== false) { 
-   this.temperatureService = new Service.TemperatureSensor(this.name_temperature);	    
-    this.temperatureService
-      .getCharacteristic(Characteristic.CurrentTemperature)
-      .setProps({
-        minValue: -100,
-        maxValue: 100
-      })
+    if (temperature_c > -100) { 
+   	this.temperatureService
+        .getCharacteristic(Characteristic.CurrentTemperature)
         .setValue(Math.round(temperature_c));
- }
-if (this.humidityOff !== false) { 
-    	this.humidityService = new Service.HumiditySensor(this.name_humidity);   
+    }	    
+    if (humidity_percent > 0) {
       	this.humidityService
         .getCharacteristic(Characteristic.CurrentRelativeHumidity)
         .setValue(Math.round(humidity_percent));
-}
-if (this.carbonDioxideOff !== false) { 
-	 this.carbondioxideService = new Service.CarbonDioxideSensor(this.name_carbonDioxide);
+    }
+    if (co2_ppm > 100) {
 	this.carbondioxideService
 	.getCharacteristic(Characteristic.CarbonDioxideDetected)
-	.setValue(co2_ppm > this.carbonDioxideSet ? Characteristic.CarbonDioxideDetected.CO2_LEVELS_ABNORMAL : Characteristic.CarbonDioxideDetected.CO2_LEVELS_NORMAL)
+	.setValue(co2_ppm > 1200 ? Characteristic.CarbonDioxideDetected.CO2_LEVELS_ABNORMAL : Characteristic.CarbonDioxideDetected.CO2_LEVELS_NORMAL)
 	this.carbondioxideService
 	.getCharacteristic(Characteristic.CarbonDioxideLevel)
-	.setValue(Math.round(co2_ppm));
-}
-if (this.lightOff !== false) { 
-	this.lightService = new Service.LightSensor(this.name_light);
+	.setValue(Math.round(co2_ppm))	  
+    }
+    if (light_lux >= 0) {
         this.lightService
 	.getCharacteristic(Characteristic.CurrentAmbientLightLevel)
-	.setValue(Math.round(light_lux));
-}
-	    
-	    
-	    
-	    
+	.setValue(Math.round(light_lux))
+    }
     });
 
     
@@ -104,8 +104,8 @@ if (this.lightOff !== false) {
 
   }
 
-	getServices() {
-		return [this.services];
+  getServices() {
+    return [this.informationService, this.humidityService, this.temperatureService, this.carbondioxideService, this.lightService]
   }
-};
+}
 //
