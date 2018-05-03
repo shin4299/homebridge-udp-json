@@ -112,16 +112,16 @@ class UDPJSONPlugin
   getServices() {
 	  
 
-if (this.humidityOff == true && this.temperatureOff == false && this.carbondioxideOff == false && this.lightOff == false) { 
+if (this.humidityOff == 'true' && this.temperatureOff == 'false' && this.carbondioxideOff == 'false' && this.lightOff == 'false') { 
 	return [this.informationService, this.temperatureService, this.carbondioxideService, this.lightService];
 }
-else if (this.humidityOff == false && this.temperatureOff == false && this.carbondioxideOff == false && this.lightOff == true) { 
+else if (this.humidityOff == 'false' && this.temperatureOff == 'false' && this.carbondioxideOff == 'false' && this.lightOff == 'true') { 
 	return [this.informationService, this.temperatureService, this.humidityService, this.carbondioxideService];
 }
-else if (this.humidityOff == true && this.temperatureOff == false && this.carbondioxideOff == false && this.lightOff == true) { 
+else if (this.humidityOff == 'true' && this.temperatureOff == 'false' && this.carbondioxideOff == 'false' && this.lightOff == 'true') { 
 	return [this.informationService, this.temperatureService, this.carbondioxideService];
 }
-else if (this.humidityOff == false && this.temperatureOff == false && this.carbondioxideOff == false && this.lightOff == false) { 
+else if (this.humidityOff == 'false' && this.temperatureOff == 'false' && this.carbondioxideOff == 'false' && this.lightOff == 'false') { 
 	return [this.informationService, this.temperatureService, this.humidityService, this.carbondioxideService, this.lightService];
 } else { 
 	return [this.informationService, this.temperatureService];
