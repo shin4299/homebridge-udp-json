@@ -77,10 +77,10 @@ class UDPJSONPlugin
 // }
 
 //if (this.humidityOff) { 
-    	this.humidityService = new Service.HumiditySensor(this.name_humidity);
-	this.heumidityService
-        .getCharacteristic(Characteristic.CurrentRelativeHumidity)
-        .setValue(Math.round(humidity_percent));
+//    	this.humidityService = new Service.HumiditySensor(this.name_humidity);
+//	this.heumidityService
+//        .getCharacteristic(Characteristic.CurrentRelativeHumidity)
+//        .setValue(Math.round(humidity_percent));
 //}
 //if (this.carbonDioxideOff != "") { 
 	 this.carbondioxideService = new Service.CarbonDioxideSensor(this.name_carbonDioxide);
