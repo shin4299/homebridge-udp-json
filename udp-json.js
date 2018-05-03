@@ -103,8 +103,8 @@ if (this.lightOff !== false) {
 
   }
 
-	getServices () {
-		return this.services;
+	getServices() {
+		return [this.services];
   }
 };
 //
