@@ -118,7 +118,7 @@ if (this.humidityOff !== false && this.temperatureOff == false && this.carbondio
 else if (this.humidityOff == false && this.temperatureOff == false && this.carbondioxideOff == false && this.lightOff !== false) { 
 	return [this.informationService, this.temperatureService, this.humidityService, this.carbondioxideService];
 }
-else if (this.humidityOff !== false && this.temperatureOff == false && this.carbondioxideOff == false && this.lightOff !== false) { 
+else if (this.humidityOff && this.lightOff) { 
 	return [this.informationService, this.temperatureService, this.carbondioxideService];
 }
 else if (this.humidityOff == false && this.temperatureOff == false && this.carbondioxideOff == false && this.lightOff == false) { 
