@@ -21,7 +21,7 @@ class UDPJSONPlugin
     this.lightOff = config.lightOff || false;
     this.carbonDioxideSet = config.carbonDioxideSet || 800;
     this.name = config.name;
-    this.name_temperature = config.name_temperature || this.name;
+    this.name_temperature = config.name_temperature || this.name + 'temp';
     this.name_humidity = config.name_humidity || this.name;
     this.name_carbonDioxide = config.name_carbonDioxide || this.name;
     this.name_light = config.name_light || this.name;
@@ -111,17 +111,17 @@ class UDPJSONPlugin
 
   getServices() {
 	  
-if (this.humidityOff == false) { 
-	return [this.informationService, this.humidityService];
+if (this.humidityOff == false && this.temperatureOff == false && this.carbondioxideOff == false && this.lightOff == false) { 
+	return [this.informationService, this.temperatureService, this.humidityService, this.carbondioxideService, this.lightService];
 }
-if (this.temperatureOff == false) { 
-	return [this.temperatureService]
+if (this.humidityOff == true && this.temperatureOff == false && this.carbondioxideOff == false && this.lightOff == false) { 
+	return [this.informationService, this.temperatureService, this.carbondioxideService, this.lightService];
 }
-if (this.carbondioxideOff == false) { 
-	return [this.carbondioxideService];
+if (this.humidityOff == false && this.temperatureOff == false && this.carbondioxideOff == false && this.lightOff == true) { 
+	return [this.informationService, this.temperatureService, this.humidityService, this.carbondioxideService];
 }
-if (this.lightOff == false) { 
-	return [this.lightService];
+if (this.humidityOff == true && this.temperatureOff == false && this.carbondioxideOff == false && this.lightOff == true) { 
+	return [this.informationService, this.temperatureService, this.carbondioxideService];
 }
   }
 }
