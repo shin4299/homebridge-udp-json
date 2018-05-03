@@ -128,6 +128,6 @@ else if (this.humidityOff !== true && this.temperatureOff !== true && this.carbo
 } else { 
 	return [this.informationService, this.temperatureService];
 }*/
-	return this.Service  
+    return this.services
   }
 }
