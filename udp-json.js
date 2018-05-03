@@ -15,10 +15,11 @@ class UDPJSONPlugin
 {
   constructor(log, config) {
     this.log = log;
-    this.temperatureOff = config.temperatureOff;
-    this.humidityOff = config.humidityOff;
-    this.carbonDioxideOff = config.carbonDioxideOff;
-    this.lightOff = config.lightOff;
+    this.temperatureOff = config.temperatureOff || false;
+    this.humidityOff = config.humidityOff || false;
+    this.carbonDioxideOff = config.carbonDioxideOff || false;
+    this.lightOff = config.lightOff || false;
+    this.carbonDioxideSet = config.carbonDioxideSet || 800;
     this.name = config.name;
     this.name_temperature = config.name_temperature || this.name;
     this.name_humidity = config.name_humidity || this.name;
@@ -91,7 +92,7 @@ class UDPJSONPlugin
     if (co2_ppm > 100) {
 	this.carbondioxideService
 	.getCharacteristic(Characteristic.CarbonDioxideDetected)
-	.setValue(co2_ppm > 1200 ? Characteristic.CarbonDioxideDetected.CO2_LEVELS_ABNORMAL : Characteristic.CarbonDioxideDetected.CO2_LEVELS_NORMAL)
+	.setValue(co2_ppm > this.carbonDioxideSet ? Characteristic.CarbonDioxideDetected.CO2_LEVELS_ABNORMAL : Characteristic.CarbonDioxideDetected.CO2_LEVELS_NORMAL)
 	this.carbondioxideService
 	.getCharacteristic(Characteristic.CarbonDioxideLevel)
 	.setValue(Math.round(co2_ppm))	  
@@ -109,9 +110,18 @@ class UDPJSONPlugin
   }
 
   getServices() {
-if (this.humidityOff !== false) { 
+if (this.humidityOff = false) { 
 	return [this.humidityService];
 }
-    return [this.informationService, this.temperatureService, this.carbondioxideService, this.lightService]
+if (this.temperatureOff = false) { 
+	return [this.temperatureService];
+}
+if (this.carbondioxideOff = false) { 
+	return [this.carbondioxideService];
+}
+if (this.lightOff = false) { 
+	return [this.lightService];
+}
+    return [this.informationService]
   }
 }
