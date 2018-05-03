@@ -42,10 +42,11 @@ class UDPJSONPlugin
         maxValue: 100
       });
 // }
-	  
-//if (this.humidityOff != "") { 
+
+this.humidityServiceC	  
+if (this.humidityOff !== false) { 
     	this.humidityService = new Service.HumiditySensor(this.name_humidity);	    
-//}
+}
 //if (this.carbonDioxideOff != "") { 
 	 this.carbondioxideService = new Service.CarbonDioxideSensor(this.name_carbonDioxide);
 //}
@@ -109,6 +110,6 @@ class UDPJSONPlugin
   }
 
   getServices() {
-    return [this.informationService, this.temperatureService, this.humidityService, this.carbondioxideService, this.lightService]
+    return [this.informationService, this.temperatureService, this.humidityServiceC, this.carbondioxideService, this.lightService]
   }
 }
