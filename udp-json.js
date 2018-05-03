@@ -110,16 +110,16 @@ class UDPJSONPlugin
   }
 
   getServices() {
-if (this.humidityOff = false) { 
+if (this.humidityOff == false) { 
 	return [this.humidityService];
 }
-if (this.temperatureOff = false) { 
+if (this.temperatureOff == false) { 
 	return [this.temperatureService];
 }
-if (this.carbondioxideOff = false) { 
+if (this.carbondioxideOff == false) { 
 	return [this.carbondioxideService];
 }
-if (this.lightOff = false) { 
+if (this.lightOff == false) { 
 	return [this.lightService];
 }
     return [this.informationService]
