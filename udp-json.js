@@ -29,32 +29,7 @@ class UDPJSONPlugin
 	  
 	  this.services = []
 
-    this.informationService = new Service.AccessoryInformation();
-
-    this.informationService
-      .setCharacteristic(Characteristic.Manufacturer, "Bosch")
-      .setCharacteristic(Characteristic.Model, "RPI-UDPJSON")
-      .setCharacteristic(Characteristic.SerialNumber, this.device);
-
-//if (this.temperatureOff != "") { 
-   this.temperatureService = new Service.TemperatureSensor(this.name_temperature);	    
-    this.temperatureService
-      .getCharacteristic(Characteristic.CurrentTemperature)
-      .setProps({
-        minValue: -100,
-        maxValue: 100
-      });
-// }
-
-if (this.humidityOff) { 
-    	this.humidityService = new Service.HumiditySensor(this.name_humidity);	    
-}
-//if (this.carbonDioxideOff != "") { 
-	 this.carbondioxideService = new Service.CarbonDioxideSensor(this.name_carbonDioxide);
-//}
-if (this.lightOff) { 
-	this.lightService = new Service.LightSensor(this.name_light);
-}
+    
 
     this.server = dgram.createSocket('udp4');
     
@@ -81,13 +56,55 @@ if (this.lightOff) {
       const co2_ppm = json.co2_ppm;
       const light_lux = json.light_lux;
 
-    if (temperature_c > -100) { 
+  this.informationService = new Service.AccessoryInformation();
+
+    this.informationService
+      .setCharacteristic(Characteristic.Manufacturer, "Bosch")
+      .setCharacteristic(Characteristic.Model, "RPI-UDPJSON")
+      .setCharacteristic(Characteristic.SerialNumber, this.device);
+
+//if (this.temperatureOff != "") { 
+   this.temperatureService = new Service.TemperatureSensor(this.name_temperature);	    
+    this.temperatureService
+      .getCharacteristic(Characteristic.CurrentTemperature)
+      .setProps({
+        minValue: -100,
+        maxValue: 100
+      });
+	    this.temperatureService
+        .getCharacteristic(Characteristic.CurrentTemperature)
+        .setValue(Math.round(temperature_c));
+// }
+
+if (this.humidityOff) { 
+    	this.humidityService = new Service.HumiditySensor(this.name_humidity);
+	this.heumidityService
+        .getCharacteristic(Characteristic.CurrentRelativeHumidity)
+        .setValue(Math.round(humidity_percent));
+}
+//if (this.carbonDioxideOff != "") { 
+	 this.carbondioxideService = new Service.CarbonDioxideSensor(this.name_carbonDioxide);
+	    this.carbondioxideService
+	.getCharacteristic(Characteristic.CarbonDioxideDetected)
+	.setValue(co2_ppm > this.carbonDioxideSet ? Characteristic.CarbonDioxideDetected.CO2_LEVELS_ABNORMAL : Characteristic.CarbonDioxideDetected.CO2_LEVELS_NORMAL)
+	this.carbondioxideService
+	.getCharacteristic(Characteristic.CarbonDioxideLevel)
+	.setValue(Math.round(co2_ppm))	  
+//}
+if (this.lightOff) { 
+	this.lightService = new Service.LightSensor(this.name_light);
+	this.lightService
+	.getCharacteristic(Characteristic.CurrentAmbientLightLevel)
+	.setValue(Math.round(light_lux))
+} 
+	    
+  /*  if (temperature_c > -100) { 
    	this.temperatureService
         .getCharacteristic(Characteristic.CurrentTemperature)
         .setValue(Math.round(temperature_c));
     }	    
     if (humidity_percent > 0) {
-      	this.humidityService
+      	this.heumidityService
         .getCharacteristic(Characteristic.CurrentRelativeHumidity)
         .setValue(Math.round(humidity_percent));
     }
@@ -103,7 +120,7 @@ if (this.lightOff) {
         this.lightService
 	.getCharacteristic(Characteristic.CurrentAmbientLightLevel)
 	.setValue(Math.round(light_lux))
-    }
+    }*/
     });
 
     
