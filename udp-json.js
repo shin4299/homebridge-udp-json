@@ -43,10 +43,9 @@ class UDPJSONPlugin
       });
 // }
 
-this.humidityServiceC	  
-if (this.humidityOff !== false) { 
+//if (this.humidityOff !== false) { 
     	this.humidityService = new Service.HumiditySensor(this.name_humidity);	    
-}
+//}
 //if (this.carbonDioxideOff != "") { 
 	 this.carbondioxideService = new Service.CarbonDioxideSensor(this.name_carbonDioxide);
 //}
@@ -110,6 +109,9 @@ if (this.humidityOff !== false) {
   }
 
   getServices() {
-    return [this.informationService, this.temperatureService, this.humidityServiceC, this.carbondioxideService, this.lightService]
+if (this.humidityOff !== false) { 
+	return [this.humidityService];
+}
+    return [this.informationService, this.temperatureService, this.carbondioxideService, this.lightService]
   }
 }
