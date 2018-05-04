@@ -114,16 +114,16 @@ class UDPJSONPlugin
   getServices() {
 	  
 
-if (this.humidityOn == true && this.temperatureOn == true && this.carbondioxideOn == true && this.lightOn == true) { 
+if (this.humidityOn == 'show' && this.temperatureOn == 'show' && this.carbondioxideOn == 'show' && this.lightOn == 'show') { 
 	return [this.informationService, this.temperatureService, this.humidityService, this.carbondioxideService, this.lightService];
 }
-else if (this.humidityOn == true && this.temperatureOn == true && this.carbondioxideOn == true && this.lightOn !== true) { 
+else if (this.humidityOn == 'show' && this.temperatureOn == 'show' && this.carbondioxideOn == 'show' && this.lightOn !== 'show') { 
 	return [this.informationService, this.temperatureService, this.humidityService, this.carbondioxideService];
 }
-else if (this.humidityOn !== true && this.temperatureOn == true && this.carbondioxideOn == true && this.lightOn !== true) { 
+else if (this.humidityOn !== 'show' && this.temperatureOn == 'show' && this.carbondioxideOn == 'show' && this.lightOn !== 'show') { 
 	return [this.informationService, this.temperatureService, this.carbondioxideService];
 }
-else if (this.humidityOn !== true && this.temperatureOn == true && this.carbondioxideOn == true && this.lightOn == true) { 
+else if (this.humidityOn !== 'show' && this.temperatureOn == 'show' && this.carbondioxideOn == 'show' && this.lightOn == 'show') { 
 	return [this.informationService, this.temperatureService, this.carbondioxideService, this.lightService];
 } else { 
 	return [this.informationService, this.temperatureService];
