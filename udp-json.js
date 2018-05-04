@@ -27,8 +27,8 @@ class UDPJSONPlugin
     this.name_light = config.name_light || this.name + 'lux';
     this.listen_port = config.listen_port || 8268;
 	  
-	  this.services = []
-if (this.temperatureOn) { 
+//	  this.services = []
+//if (this.temperatureOn) { 
    this.temperatureService = new Service.TemperatureSensor(this.name_temperature);	    
     this.temperatureService
       .getCharacteristic(Characteristic.CurrentTemperature)
@@ -36,17 +36,17 @@ if (this.temperatureOn) {
         minValue: -100,
         maxValue: 100
       });
- }
+ //}
 
-if (this.humidityOn) { 
+//if (this.humidityOn) { 
     	this.humidityService = new Service.HumiditySensor(this.name_humidity);
-}
-if (this.carbonDioxideOn) { 
+//}
+//if (this.carbonDioxideOn) { 
 	 this.carbondioxideService = new Service.CarbonDioxideSensor(this.name_carbonDioxide);   
-}
-if (this.lightOn) { 
+//}
+//if (this.lightOn) { 
 	this.lightService = new Service.LightSensor(this.name_light);
-} 
+//} 
     
 
     this.server = dgram.createSocket('udp4');
@@ -115,21 +115,21 @@ if (this.lightOn) {
 
   getServices() {
 	  
-/*
-if (this.humidityOff && this.temperatureOff !== true && this.carbondioxideOff !== true && this.lightOff !== true) { 
-	return [this.informationService, this.temperatureService, this.carbondioxideService, this.lightService];
+
+if (this.humidityOn == true && this.temperatureOn == true && this.carbondioxideOn == true && this.lightOn == true) { 
+	return [this.informationService, this.temperatureService, this.humidityService, this.carbondioxideService, this.lightService];
 }
-else if (this.humidityOff !== true && this.temperatureOff !== true && this.carbondioxideOff !== true && this.lightOff) { 
+else if (this.humidityOn == true && this.temperatureOn == true && this.carbondioxideOn == true && this.lightOn !== true) { 
 	return [this.informationService, this.temperatureService, this.humidityService, this.carbondioxideService];
 }
-else if (this.humidityOff && this.temperatureOff !== true && this.carbondioxideOff !== true && this.lightOff) { 
+else if (this.humidityOn !== true && this.temperatureOn == true && this.carbondioxideOn == true && this.lightOn !== true) { 
 	return [this.informationService, this.temperatureService, this.carbondioxideService];
 }
-else if (this.humidityOff !== true && this.temperatureOff !== true && this.carbondioxideOff !== true && this.lightOff !== true) { 
-	return [this.informationService, this.temperatureService, this.humidityService, this.carbondioxideService, this.lightService];
+else if (this.humidityOn !== true && this.temperatureOn == true && this.carbondioxideOn == true && this.lightOn == true) { 
+	return [this.informationService, this.temperatureService, this.carbondioxideService, this.lightService];
 } else { 
 	return [this.informationService, this.temperatureService];
-}*/
-    return this.services
+}
+ //   return this.services
   }
 }
