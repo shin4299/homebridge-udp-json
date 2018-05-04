@@ -22,9 +22,9 @@ class UDPJSONPlugin
     this.carbonDioxideSet = config.carbonDioxideSet || 800;
     this.name = config.name;
     this.name_temperature = config.name_temperature || this.name + 'temp';
-    this.name_humidity = config.name_humidity || this.name;
-    this.name_carbonDioxide = config.name_carbonDioxide || this.name;
-    this.name_light = config.name_light || this.name;
+    this.name_humidity = config.name_humidity || this.name + 'humi';
+    this.name_carbonDioxide = config.name_carbonDioxide || this.name + 'CO2';
+    this.name_light = config.name_light || this.name + 'lux';
     this.listen_port = config.listen_port || 8268;
 	  
 	  this.services = []
