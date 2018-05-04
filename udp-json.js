@@ -27,6 +27,13 @@ class UDPJSONPlugin
     this.name_light = config.name_light || this.name + 'lux';
     this.listen_port = config.listen_port || 8268;
 	  
+	this.informationService = new Service.AccessoryInformation();
+
+    this.informationService
+      .setCharacteristic(Characteristic.Manufacturer, "Bosch")
+      .setCharacteristic(Characteristic.Model, "RPI-UDPJSON")
+      .setCharacteristic(Characteristic.SerialNumber, this.device);
+	  
 //	  this.services = []
 //if (this.temperatureOn) { 
    this.temperatureService = new Service.TemperatureSensor(this.name_temperature);	    
@@ -73,15 +80,6 @@ class UDPJSONPlugin
       const humidity_percent = json.humidity_percent;
       const co2_ppm = json.co2_ppm;
       const light_lux = json.light_lux;
-
-  this.informationService = new Service.AccessoryInformation();
-
-    this.informationService
-      .setCharacteristic(Characteristic.Manufacturer, "Bosch")
-      .setCharacteristic(Characteristic.Model, "RPI-UDPJSON")
-      .setCharacteristic(Characteristic.SerialNumber, this.device);
-
-
 	    
     if (temperature_c > -100) { 
    	this.temperatureService
