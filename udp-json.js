@@ -15,10 +15,10 @@ class UDPJSONPlugin
 {
   constructor(log, config) {
     this.log = log;
-    this.temperatureOff = config.temperatureOff || true;
-    this.humidityOff = config.humidityOff || true;
-    this.carbonDioxideOff = config.carbonDioxideOff || true;
-    this.lightOff = config.lightOff || true;
+    this.temperatureOn = config.temperatureOn || true;
+    this.humidityOn = config.humidityOn || true;
+    this.carbonDioxideOn = config.carbonDioxideOn || true;
+    this.lightOn = config.lightOn || true;
     this.carbonDioxideSet = config.carbonDioxideSet || 800;
     this.name = config.name;
     this.name_temperature = config.name_temperature || this.name + 'temp';
@@ -28,7 +28,7 @@ class UDPJSONPlugin
     this.listen_port = config.listen_port || 8268;
 	  
 	  this.services = []
-if (this.temperatureOff) { 
+if (this.temperatureOn) { 
    this.temperatureService = new Service.TemperatureSensor(this.name_temperature);	    
     this.temperatureService
       .getCharacteristic(Characteristic.CurrentTemperature)
@@ -38,13 +38,13 @@ if (this.temperatureOff) {
       });
  }
 
-if (this.humidityOff) { 
+if (this.humidityOn) { 
     	this.humidityService = new Service.HumiditySensor(this.name_humidity);
 }
-if (this.carbonDioxideOff) { 
+if (this.carbonDioxideOn) { 
 	 this.carbondioxideService = new Service.CarbonDioxideSensor(this.name_carbonDioxide);   
 }
-if (this.lightOff) { 
+if (this.lightOn) { 
 	this.lightService = new Service.LightSensor(this.name_light);
 } 
     
