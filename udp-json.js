@@ -34,8 +34,6 @@ class UDPJSONPlugin
       .setCharacteristic(Characteristic.Model, "RPI-UDPJSON")
       .setCharacteristic(Characteristic.SerialNumber, this.device);
 	  
-//	  this.services = []
-//if (this.temperatureOn) { 
    this.temperatureService = new Service.TemperatureSensor(this.name_temperature);	    
     this.temperatureService
       .getCharacteristic(Characteristic.CurrentTemperature)
@@ -43,17 +41,11 @@ class UDPJSONPlugin
         minValue: -100,
         maxValue: 100
       });
- //}
-
-//if (this.humidityOn) { 
     	this.humidityService = new Service.HumiditySensor(this.name_humidity);
-//}
-//if (this.carbonDioxideOn) { 
-	 this.carbondioxideService = new Service.CarbonDioxideSensor(this.name_carbonDioxide);   
-//}
-//if (this.lightOn) { 
+
+	  this.carbondioxideService = new Service.CarbonDioxideSensor(this.name_carbonDioxide);   
+ 
 	this.lightService = new Service.LightSensor(this.name_light);
-//} 
     
 
     this.server = dgram.createSocket('udp4');
@@ -113,8 +105,9 @@ class UDPJSONPlugin
 
   getServices() {
 	  
+	return [this.informationService, this.temperatureService, this.humidityService, this.carbondioxideService, this.lightService];
 
-if (this.humidityOn == 'show' && this.temperatureOn == 'show' && this.carbondioxideOn == 'show' && this.lightOn == 'show') { 
+/*if (this.humidityOn == 'show' && this.temperatureOn == 'show' && this.carbondioxideOn == 'show' && this.lightOn == 'show') { 
 	return [this.informationService, this.temperatureService, this.humidityService, this.carbondioxideService, this.lightService];
 }
 else if (this.humidityOn == 'show' && this.temperatureOn == 'show' && this.carbondioxideOn == 'show' && this.lightOn !== 'show') { 
@@ -128,6 +121,6 @@ else if (this.humidityOn !== 'show' && this.temperatureOn == 'show' && this.carb
 } else { 
 	return [this.informationService, this.temperatureService];
 }
- //   return this.services
+ //   return this.services*/
   }
 }
